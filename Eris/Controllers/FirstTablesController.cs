@@ -1,31 +1,33 @@
-﻿using Eris.Models;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Eris.Models;
 
 namespace Eris.Controllers
 {
     [Produces("application/json")]
-    [Route("api/First")]
-    public class FirstController : Controller
+    [Route("api/FirstTables")]
+    public class FirstTablesController : Controller
     {
-        private readonly FirstTableContext _context;
+        private readonly ErisDbContext _context;
 
-        public FirstController(FirstTableContext context)
+        public FirstTablesController(ErisDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/First
+        // GET: api/FirstTables
         [HttpGet]
-        public IEnumerable<FirstTable> GetFirstTables()
+        public IEnumerable<FirstTable> GetFirstTable()
         {
-            return _context.FirstTables;
+            return _context.FirstTable;
         }
 
-        // GET: api/First/5
+        // GET: api/FirstTables/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetFirstTable([FromRoute] int id)
         {
@@ -34,7 +36,7 @@ namespace Eris.Controllers
                 return BadRequest(ModelState);
             }
 
-            var firstTable = await _context.FirstTables.SingleOrDefaultAsync(m => m.Id == id);
+            var firstTable = await _context.FirstTable.SingleOrDefaultAsync(m => m.Id == id);
 
             if (firstTable == null)
             {
@@ -44,7 +46,7 @@ namespace Eris.Controllers
             return Ok(firstTable);
         }
 
-        // PUT: api/First/5
+        // PUT: api/FirstTables/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutFirstTable([FromRoute] int id, [FromBody] FirstTable firstTable)
         {
@@ -79,7 +81,7 @@ namespace Eris.Controllers
             return NoContent();
         }
 
-        // POST: api/First
+        // POST: api/FirstTables
         [HttpPost]
         public async Task<IActionResult> PostFirstTable([FromBody] FirstTable firstTable)
         {
@@ -88,13 +90,27 @@ namespace Eris.Controllers
                 return BadRequest(ModelState);
             }
 
-            _context.FirstTables.Add(firstTable);
-            await _context.SaveChangesAsync();
+            _context.FirstTable.Add(firstTable);
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException)
+            {
+                if (FirstTableExists(firstTable.Id))
+                {
+                    return new StatusCodeResult(StatusCodes.Status409Conflict);
+                }
+                else
+                {
+                    throw;
+                }
+            }
 
             return CreatedAtAction("GetFirstTable", new { id = firstTable.Id }, firstTable);
         }
 
-        // DELETE: api/First/5
+        // DELETE: api/FirstTables/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteFirstTable([FromRoute] int id)
         {
@@ -103,13 +119,13 @@ namespace Eris.Controllers
                 return BadRequest(ModelState);
             }
 
-            var firstTable = await _context.FirstTables.SingleOrDefaultAsync(m => m.Id == id);
+            var firstTable = await _context.FirstTable.SingleOrDefaultAsync(m => m.Id == id);
             if (firstTable == null)
             {
                 return NotFound();
             }
 
-            _context.FirstTables.Remove(firstTable);
+            _context.FirstTable.Remove(firstTable);
             await _context.SaveChangesAsync();
 
             return Ok(firstTable);
@@ -117,7 +133,7 @@ namespace Eris.Controllers
 
         private bool FirstTableExists(int id)
         {
-            return _context.FirstTables.Any(e => e.Id == id);
+            return _context.FirstTable.Any(e => e.Id == id);
         }
     }
 }

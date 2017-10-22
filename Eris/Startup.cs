@@ -16,10 +16,11 @@ namespace Eris
         }
 
         public IConfiguration Configuration { get; }
-        
+
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<FirstTableContext>(opt => opt.UseInMemoryDatabase("TodoList"));
+            services.AddDbContext<ErisDbContext>(options =>
+                 options.UseSqlServer(Configuration.GetConnectionString("ErisDb")));
 
             services.AddSwaggerGen(c =>
             {
@@ -28,7 +29,7 @@ namespace Eris
 
             services.AddMvc();
         }
-        
+
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
