@@ -3,11 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27004.2005
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Eris", "Eris\Eris.csproj", "{147C60C7-9FD9-4BE2-8AC7-798800B04E84}"
-EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "ErisDb", "ErisDb\ErisDb.sqlproj", "{C5A665AE-DBBA-4F58-9654-4361584262EF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ErisAngular", "ErisAngular\ErisAngular.csproj", "{2EDBE1CF-F6CF-415D-80D3-EC27744586F2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eris", "Eris\Eris.csproj", "{2EDBE1CF-F6CF-415D-80D3-EC27744586F2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,10 +13,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{147C60C7-9FD9-4BE2-8AC7-798800B04E84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{147C60C7-9FD9-4BE2-8AC7-798800B04E84}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{147C60C7-9FD9-4BE2-8AC7-798800B04E84}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{147C60C7-9FD9-4BE2-8AC7-798800B04E84}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C5A665AE-DBBA-4F58-9654-4361584262EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C5A665AE-DBBA-4F58-9654-4361584262EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C5A665AE-DBBA-4F58-9654-4361584262EF}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
