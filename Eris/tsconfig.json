@@ -13,8 +13,7 @@
     "types": [ "webpack-env" ],
     "baseUrl": ".",
     "paths": {
-      "@app/*": [ "ClientApp/app/*" ],
-      "@services/*": [ "ClientApp/app/services/*" ]
+      "services/*": [ "ClientApp/app/services/*" ]
     }
   },
   "exclude": [ "bin", "node_modules" ],

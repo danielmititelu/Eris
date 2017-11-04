@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { Http } from '@angular/http';
 
-import { TodoService } from '../../services/todo.service'
+import { TodoService } from 'services/todo.service'
 
 @Component({
     selector: 'todo',
