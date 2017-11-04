@@ -6,16 +6,16 @@ import { Http } from '@angular/http';
     templateUrl: './fetchdata.component.html'
 })
 export class FetchDataComponent {
-    public rows: Task[];
+    public rows: ToDoItem[];
 
     constructor(http: Http, @Inject('BASE_URL') baseUrl: string) {
         http.get(baseUrl + 'api/Task').subscribe(
-            result => { this.rows = result.json() as Task[]; },
+            result => { this.rows = result.json() as ToDoItem[]; },
             error => console.error(error));
     }
 }
 
-interface Task {
+interface ToDoItem {
     id: number;
     name: string;
     isCompleted: boolean;

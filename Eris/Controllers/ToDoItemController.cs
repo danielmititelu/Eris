@@ -11,20 +11,20 @@ namespace Eris.Controllers
 {
     [Produces("application/json")]
     [Route("api/Task")]
-    public class TaskController : Controller
+    public class ToDoItemController : Controller
     {
         private readonly ErisDbContext _context;
 
-        public TaskController(ErisDbContext context)
+        public ToDoItemController(ErisDbContext context)
         {
             _context = context;
         }
 
         // GET: api/Tasks
         [HttpGet]
-        public IEnumerable<Models.Task> GetTasks()
+        public IEnumerable<ToDoItem> GetTasks()
         {
-            return _context.Task;
+            return _context.ToDoItem;
         }
 
         // GET: api/Task/5
@@ -36,31 +36,31 @@ namespace Eris.Controllers
                 return BadRequest(ModelState);
             }
 
-            var task = await _context.Task.SingleOrDefaultAsync(m => m.Id == id);
+            var toDoItem = await _context.ToDoItem.SingleOrDefaultAsync(m => m.Id == id);
 
-            if (task == null)
+            if (toDoItem == null)
             {
                 return NotFound();
             }
 
-            return Ok(task);
+            return Ok(toDoItem);
         }
 
         // PUT: api/Task/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTask([FromRoute] int id, [FromBody] Models.Task task)
+        public async Task<IActionResult> PutTask([FromRoute] int id, [FromBody] ToDoItem toDoItem)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != task.Id)
+            if (id != toDoItem.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(task).State = EntityState.Modified;
+            _context.Entry(toDoItem).State = EntityState.Modified;
 
             try
             {
@@ -83,21 +83,21 @@ namespace Eris.Controllers
 
         // POST: api/Task
         [HttpPost]
-        public async Task<IActionResult> PostTask([FromBody] Models.Task task)
+        public async Task<IActionResult> PostTask([FromBody] ToDoItem toDoItem)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.Task.Add(task);
+            _context.ToDoItem.Add(toDoItem);
             try
             {
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateException)
             {
-                if (TaskExists(task.Id))
+                if (TaskExists(toDoItem.Id))
                 {
                     return new StatusCodeResult(StatusCodes.Status409Conflict);
                 }
@@ -107,7 +107,7 @@ namespace Eris.Controllers
                 }
             }
 
-            return CreatedAtAction("GetTask", new { id = task.Id }, task);
+            return CreatedAtAction("GetTask", new { id = toDoItem.Id }, toDoItem);
         }
 
         // DELETE: api/Task/5
@@ -119,21 +119,21 @@ namespace Eris.Controllers
                 return BadRequest(ModelState);
             }
 
-            var task = await _context.Task.SingleOrDefaultAsync(m => m.Id == id);
-            if (task == null)
+            var toDoitem = await _context.ToDoItem.SingleOrDefaultAsync(m => m.Id == id);
+            if (toDoitem == null)
             {
                 return NotFound();
             }
 
-            _context.Task.Remove(task);
+            _context.ToDoItem.Remove(toDoitem);
             await _context.SaveChangesAsync();
 
-            return Ok(task);
+            return Ok(toDoitem);
         }
 
         private bool TaskExists(int id)
         {
-            return _context.Task.Any(e => e.Id == id);
+            return _context.ToDoItem.Any(e => e.Id == id);
         }
     }
 }
