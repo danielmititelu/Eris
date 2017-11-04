@@ -1,5 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { Http } from '@angular/http';
+import { Component, OnInit } from '@angular/core';
 
 import { TodoService } from 'services/todo.service'
 
@@ -9,14 +8,15 @@ import { TodoService } from 'services/todo.service'
 })
 export class TodoComponent implements OnInit {
 
-    public rows: TodoItem[];
+    rows: TodoItem[];
+    error: any;
 
     constructor(private todoService: TodoService){ }
 
     ngOnInit(): void {
-        this.todoService.getHeroes().subscribe(
+        this.todoService.getTodo().subscribe(
             result => this.rows = result,
-            error => console.error(error)
+            error => this.error = error
         );
     }
 }

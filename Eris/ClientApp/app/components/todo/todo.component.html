@@ -1,8 +1,7 @@
-<h1>Weather forecast</h1>
+<h1>To-do</h1>
 
-<p>This component demonstrates fetching data from the server.</p>
-
-<p *ngIf="!rows"><em>Loading...</em></p>
+<p *ngIf="!rows && !error"><em>Loading...</em></p>
+<p *ngIf="error"><em>{{ error }}</em></p>
 
 <table class='table' *ngIf="rows">
     <thead>

@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Eris.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Eris.Models;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Eris.Controllers
 {
@@ -22,9 +20,9 @@ namespace Eris.Controllers
 
         // GET: api/Tasks
         [HttpGet]
-        public IEnumerable<ToDoItem> GetTasks()
+        public IActionResult GetTasks()
         {
-            return _context.ToDoItem;
+            return Ok(_context.ToDoItem);
         }
 
         // GET: api/Task/5

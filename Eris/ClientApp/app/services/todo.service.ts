@@ -3,7 +3,7 @@ import { Http } from '@angular/http';
 import { Observable } from 'rxjs';
 
 import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/toPromise';
+import 'rxjs/add/observable/throw';
 
 @Injectable()
 export class TodoService {
@@ -11,9 +11,9 @@ export class TodoService {
     constructor(private http: Http, @Inject('BASE_URL')
                 private baseUrl: string) { }
 
-    getHeroes(): Observable<TodoItem[]> {
+    getTodo(): Observable<TodoItem[]> {
         return this.http.get(this.baseUrl + 'api/Task')
                 .map(response => response.json() as TodoItem[])
-                .catch(error => Observable.of(error));
+                .catch(error => Observable.throw(error));
     }
 }
