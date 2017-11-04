@@ -32,8 +32,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ClientApp\app\models\" />
+    <None Remove="ClientApp\app\models\todoItem.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Properties\PublishProfiles\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\app\models\todoItem.ts" />
   </ItemGroup>
 
   <ItemGroup>
