@@ -1,65 +1,66 @@
-﻿using Eris.Models;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Eris.Models;
 
 namespace Eris.Controllers
 {
     [Produces("application/json")]
-    [Route("api/FirstTables")]
-    public class FirstTablesController : Controller
+    [Route("api/Task")]
+    public class TaskController : Controller
     {
         private readonly ErisDbContext _context;
 
-        public FirstTablesController(ErisDbContext context)
+        public TaskController(ErisDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/FirstTables
+        // GET: api/Tasks
         [HttpGet]
-        public IEnumerable<FirstTable> GetFirstTable()
+        public IEnumerable<Models.Task> GetTasks()
         {
-            return _context.FirstTable;
+            return _context.Task;
         }
 
-        // GET: api/FirstTables/5
+        // GET: api/Task/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetFirstTable([FromRoute] int id)
+        public async Task<IActionResult> GetTask([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var firstTable = await _context.FirstTable.SingleOrDefaultAsync(m => m.Id == id);
+            var task = await _context.Task.SingleOrDefaultAsync(m => m.Id == id);
 
-            if (firstTable == null)
+            if (task == null)
             {
                 return NotFound();
             }
 
-            return Ok(firstTable);
+            return Ok(task);
         }
 
-        // PUT: api/FirstTables/5
+        // PUT: api/Task/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutFirstTable([FromRoute] int id, [FromBody] FirstTable firstTable)
+        public async Task<IActionResult> PutTask([FromRoute] int id, [FromBody] Models.Task task)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != firstTable.Id)
+            if (id != task.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(firstTable).State = EntityState.Modified;
+            _context.Entry(task).State = EntityState.Modified;
 
             try
             {
@@ -67,7 +68,7 @@ namespace Eris.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!FirstTableExists(id))
+                if (!TaskExists(id))
                 {
                     return NotFound();
                 }
@@ -80,23 +81,23 @@ namespace Eris.Controllers
             return NoContent();
         }
 
-        // POST: api/FirstTables
+        // POST: api/Task
         [HttpPost]
-        public async Task<IActionResult> PostFirstTable([FromBody] FirstTable firstTable)
+        public async Task<IActionResult> PostTask([FromBody] Models.Task task)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.FirstTable.Add(firstTable);
+            _context.Task.Add(task);
             try
             {
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateException)
             {
-                if (FirstTableExists(firstTable.Id))
+                if (TaskExists(task.Id))
                 {
                     return new StatusCodeResult(StatusCodes.Status409Conflict);
                 }
@@ -106,33 +107,33 @@ namespace Eris.Controllers
                 }
             }
 
-            return CreatedAtAction("GetFirstTable", new { id = firstTable.Id }, firstTable);
+            return CreatedAtAction("GetTask", new { id = task.Id }, task);
         }
 
-        // DELETE: api/FirstTables/5
+        // DELETE: api/Task/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteFirstTable([FromRoute] int id)
+        public async Task<IActionResult> DeleteTask([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var firstTable = await _context.FirstTable.SingleOrDefaultAsync(m => m.Id == id);
-            if (firstTable == null)
+            var task = await _context.Task.SingleOrDefaultAsync(m => m.Id == id);
+            if (task == null)
             {
                 return NotFound();
             }
 
-            _context.FirstTable.Remove(firstTable);
+            _context.Task.Remove(task);
             await _context.SaveChangesAsync();
 
-            return Ok(firstTable);
+            return Ok(task);
         }
 
-        private bool FirstTableExists(int id)
+        private bool TaskExists(int id)
         {
-            return _context.FirstTable.Any(e => e.Id == id);
+            return _context.Task.Any(e => e.Id == id);
         }
     }
 }

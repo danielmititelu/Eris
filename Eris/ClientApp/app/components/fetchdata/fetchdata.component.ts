@@ -6,16 +6,17 @@ import { Http } from '@angular/http';
     templateUrl: './fetchdata.component.html'
 })
 export class FetchDataComponent {
-    public rows: FirstTable[];
+    public rows: Task[];
 
     constructor(http: Http, @Inject('BASE_URL') baseUrl: string) {
-        http.get(baseUrl + 'api/FirstTables').subscribe(result => {
-            this.rows = result.json() as FirstTable[];
-        }, error => console.error(error));
+        http.get(baseUrl + 'api/Task').subscribe(
+            result => { this.rows = result.json() as Task[]; },
+            error => console.error(error));
     }
 }
 
-interface FirstTable {
+interface Task {
     id: number;
     name: string;
+    isCompleted: boolean;
 }

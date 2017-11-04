@@ -14,6 +14,7 @@
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.ApplicationInsights.Web" Version="2.4.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="1.0.0" />
   </ItemGroup>
 
@@ -23,10 +24,15 @@
 
   <ItemGroup>
     <!-- Files not to publish (note that the 'dist' subfolders are re-added below) -->
+    <Compile Remove="ModelGenerated\**" />
     <Content Remove="ClientApp\**" />
+    <Content Remove="ModelGenerated\**" />
+    <EmbeddedResource Remove="ModelGenerated\**" />
+    <None Remove="ModelGenerated\**" />
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="ClientApp\app\models\" />
     <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
 

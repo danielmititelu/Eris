@@ -9,12 +9,14 @@
         <tr>
             <th>Id</th>
             <th>Name</th>
+            <th>Completed</th>
         </tr>
     </thead>
     <tbody>
         <tr *ngFor="let row of rows">
             <td>{{ row.id }}</td>
             <td>{{ row.name }}</td>
+            <td>{{ row.isCompleted }}</td>
         </tr>
     </tbody>
 </table>
