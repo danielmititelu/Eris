@@ -1,6 +1,6 @@
 <h1>To-do</h1>
 
-<p *ngIf="!rows && !error"><em>Loading...</em></p>
+<app-loading *ngIf="!rows && !error"></app-loading>
 <p *ngIf="error"><em>{{ error }}</em></p>
 
 <table class='table' *ngIf="rows">

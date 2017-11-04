@@ -8,6 +8,7 @@ import { AppComponent } from './components/app/app.component';
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
 import { HomeComponent } from './components/home/home.component';
 import { TodoComponent } from './components/todo/todo.component';
+import { LoadingComponent } from './components/loading/loading.component';
 import { TodoService } from './services/todo.service'
 
 @NgModule({
@@ -15,7 +16,8 @@ import { TodoService } from './services/todo.service'
         AppComponent,
         NavMenuComponent,
         TodoComponent,
-        HomeComponent
+        HomeComponent,
+        LoadingComponent
     ],
     imports: [
         CommonModule,
