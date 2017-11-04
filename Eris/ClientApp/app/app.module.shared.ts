@@ -7,7 +7,8 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './components/app/app.component';
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
 import { HomeComponent } from './components/home/home.component';
-import { TodoComponent } from './components/fetchdata/todo.component';
+import { TodoComponent } from './components/todo/todo.component';
+import { TodoService } from './services/todo.service'
 
 @NgModule({
     declarations: [
@@ -26,6 +27,9 @@ import { TodoComponent } from './components/fetchdata/todo.component';
             { path: 'to-do', component: TodoComponent },
             { path: '**', redirectTo: 'home' }
         ])
+    ],
+    providers: [
+        TodoService
     ]
 })
 export class AppModuleShared {

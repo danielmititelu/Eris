@@ -33,6 +33,7 @@
 
   <ItemGroup>
     <None Remove="ClientApp\app\models\todoItem.ts" />
+    <None Remove="ClientApp\app\services\todo.service.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -41,6 +42,7 @@
 
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\app\models\todoItem.ts" />
+    <TypeScriptCompile Include="ClientApp\app\services\todo.service.ts" />
   </ItemGroup>
 
   <ItemGroup>
