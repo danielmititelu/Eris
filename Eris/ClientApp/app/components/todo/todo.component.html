@@ -8,7 +8,7 @@
         <tr *ngFor="let row of rows">
             <td>
                 <input type="checkbox" [checked]="row.isCompleted">
-                {{ row.name }}{{row.id}}
+                {{ row.name }}
                 <button class="btn btn-danger" (click)="deleteTodo(row.id)">X</button>
             </td>
         </tr>
