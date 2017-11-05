@@ -1,34 +1,35 @@
-﻿using Eris.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+using Eris.Models;
 
 namespace Eris.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Task")]
-    public class ToDoItemController : Controller
+    [Route("api/TodoItems")]
+    public class TodoItemsController : Controller
     {
         private readonly ErisDbContext _context;
 
-        public ToDoItemController(ErisDbContext context)
+        public TodoItemsController(ErisDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Tasks
+        // GET: api/TodoItems
         [HttpGet]
-        public IActionResult GetTasks()
+        public IEnumerable<TodoItem> GetToDoItem()
         {
-            return Ok(_context.ToDoItem);
+            return _context.ToDoItem;
         }
 
-        // GET: api/Task/5
+        // GET: api/TodoItems/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetTask([FromRoute] int id)
+        public async Task<IActionResult> GetToDoItem([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
@@ -45,9 +46,9 @@ namespace Eris.Controllers
             return Ok(toDoItem);
         }
 
-        // PUT: api/Task/5
+        // PUT: api/TodoItems/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTask([FromRoute] int id, [FromBody] ToDoItem toDoItem)
+        public async Task<IActionResult> PutToDoItem([FromRoute] int id, [FromBody] TodoItem toDoItem)
         {
             if (!ModelState.IsValid)
             {
@@ -67,7 +68,7 @@ namespace Eris.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!TaskExists(id))
+                if (!ToDoItemExists(id))
                 {
                     return NotFound();
                 }
@@ -80,9 +81,9 @@ namespace Eris.Controllers
             return NoContent();
         }
 
-        // POST: api/Task
+        // POST: api/TodoItems
         [HttpPost]
-        public async Task<IActionResult> PostTask([FromBody] ToDoItem toDoItem)
+        public async Task<IActionResult> PostToDoItem([FromBody] TodoItem toDoItem)
         {
             if (!ModelState.IsValid)
             {
@@ -90,47 +91,33 @@ namespace Eris.Controllers
             }
 
             _context.ToDoItem.Add(toDoItem);
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (TaskExists(toDoItem.Id))
-                {
-                    return new StatusCodeResult(StatusCodes.Status409Conflict);
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetTask", new { id = toDoItem.Id }, toDoItem);
+            return CreatedAtAction("GetToDoItem", new { id = toDoItem.Id }, toDoItem);
         }
 
-        // DELETE: api/Task/5
+        // DELETE: api/TodoItems/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTask([FromRoute] int id)
+        public async Task<IActionResult> DeleteToDoItem([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var toDoitem = await _context.ToDoItem.SingleOrDefaultAsync(m => m.Id == id);
-            if (toDoitem == null)
+            var toDoItem = await _context.ToDoItem.SingleOrDefaultAsync(m => m.Id == id);
+            if (toDoItem == null)
             {
                 return NotFound();
             }
 
-            _context.ToDoItem.Remove(toDoitem);
+            _context.ToDoItem.Remove(toDoItem);
             await _context.SaveChangesAsync();
 
-            return Ok(toDoitem);
+            return Ok(toDoItem);
         }
 
-        private bool TaskExists(int id)
+        private bool ToDoItemExists(int id)
         {
             return _context.ToDoItem.Any(e => e.Id == id);
         }

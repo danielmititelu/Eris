@@ -4,17 +4,16 @@ namespace Eris.Models
 {
     public partial class ErisDbContext : DbContext
     {
-        public virtual DbSet<ToDoItem> ToDoItem { get; set; }
+        public virtual DbSet<TodoItem> ToDoItem { get; set; }
 
         public ErisDbContext(DbContextOptions<ErisDbContext> options)
             : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<ToDoItem>(entity =>
+            modelBuilder.Entity<TodoItem>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-                entity.Property(e => e.Name).HasColumnType("nchar(100)");
+                entity.Property(e => e.Name).HasColumnType("varchar(100)");
             });
         }
     }

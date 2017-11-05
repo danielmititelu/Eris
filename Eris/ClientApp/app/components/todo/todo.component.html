@@ -4,18 +4,23 @@
 <p *ngIf="error"><em>{{ error }}</em></p>
 
 <table class='table' *ngIf="rows">
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Completed</th>
-        </tr>
-    </thead>
     <tbody>
         <tr *ngFor="let row of rows">
-            <td>{{ row.id }}</td>
-            <td>{{ row.name }}</td>
-            <td>{{ row.isCompleted }}</td>
+            <td>
+                <input type="checkbox" [checked]="row.isCompleted">
+                {{ row.name }}{{row.id}}
+                <button class="btn btn-danger" (click)="deleteTodo(row.id)">X</button>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="input-group">
+                    <input #box type="text" class="form-control" (keyup.enter)="addTodo(box.value.trim());box.value = ''">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-default" (click)="addTodo(box.value.trim());box.value = ''">Add</button>
+                    </div>
+                </div>
+            </td>
         </tr>
     </tbody>
 </table>
