@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Eris.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Eris.Models;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Eris.Controllers
 {
-    [Produces("application/json")]
     [Route("api/TodoItems")]
+    [Produces("application/json")]
     public class TodoItemsController : Controller
     {
         private readonly ErisDbContext _context;
@@ -20,47 +17,48 @@ namespace Eris.Controllers
             _context = context;
         }
 
-        // GET: api/TodoItems
+        /// <summary>
+        /// Return a list of all todo items
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
-        public IEnumerable<TodoItem> GetToDoItem()
-        {
-            return _context.ToDoItem;
-        }
+        public async Task<IActionResult> GetTodoItems() => Ok(await _context.TodoItem.ToListAsync());
 
-        // GET: api/TodoItems/5
+        /// <summary>
+        /// Return a todo item with a specific id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetToDoItem([FromRoute] int id)
+        public async Task<IActionResult> GetTodoItem([FromRoute] int id)
         {
             if (!ModelState.IsValid)
-            {
                 return BadRequest(ModelState);
-            }
 
-            var toDoItem = await _context.ToDoItem.SingleOrDefaultAsync(m => m.Id == id);
+            var toDoItem = await _context.TodoItem.SingleOrDefaultAsync(m => m.Id == id);
 
             if (toDoItem == null)
-            {
                 return NotFound();
-            }
 
             return Ok(toDoItem);
         }
 
-        // PUT: api/TodoItems/5
+        /// <summary>
+        /// Update a todo item
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="todoItem"></param>
+        /// <returns></returns>
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutToDoItem([FromRoute] int id, [FromBody] TodoItem toDoItem)
+        public async Task<IActionResult> PutTodoItem([FromRoute] int id, [FromBody] TodoItem todoItem)
         {
             if (!ModelState.IsValid)
-            {
                 return BadRequest(ModelState);
-            }
 
-            if (id != toDoItem.Id)
-            {
+            if (id != todoItem.Id)
                 return BadRequest();
-            }
 
-            _context.Entry(toDoItem).State = EntityState.Modified;
+            _context.Entry(todoItem).State = EntityState.Modified;
 
             try
             {
@@ -68,58 +66,58 @@ namespace Eris.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ToDoItemExists(id))
-                {
+                if (!TodoItemExists(id))
                     return NotFound();
-                }
                 else
-                {
                     throw;
-                }
             }
 
             return NoContent();
         }
 
-        // POST: api/TodoItems
+        /// <summary>
+        /// Insert a new todo item
+        /// </summary>
+        /// <param name="todoItem"></param>
+        /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> PostToDoItem([FromBody] TodoItem toDoItem)
+        public async Task<IActionResult> PostTodoItem([FromBody] TodoItem todoItem)
         {
             if (!ModelState.IsValid)
-            {
                 return BadRequest(ModelState);
-            }
 
-            _context.ToDoItem.Add(toDoItem);
+            _context.TodoItem.Add(todoItem);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetToDoItem", new { id = toDoItem.Id }, toDoItem);
+            return CreatedAtAction("api/TodoItems", new { id = todoItem.Id }, todoItem);
         }
 
-        // DELETE: api/TodoItems/5
+        /// <summary>
+        /// Delete a todo item
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteToDoItem([FromRoute] int id)
+        public async Task<IActionResult> DeleteTodoItem([FromRoute] int id)
         {
             if (!ModelState.IsValid)
-            {
                 return BadRequest(ModelState);
-            }
 
-            var toDoItem = await _context.ToDoItem.SingleOrDefaultAsync(m => m.Id == id);
+            var toDoItem = await _context.TodoItem.SingleOrDefaultAsync(m => m.Id == id);
             if (toDoItem == null)
-            {
                 return NotFound();
-            }
 
-            _context.ToDoItem.Remove(toDoItem);
+            _context.TodoItem.Remove(toDoItem);
             await _context.SaveChangesAsync();
 
             return Ok(toDoItem);
         }
 
-        private bool ToDoItemExists(int id)
-        {
-            return _context.ToDoItem.Any(e => e.Id == id);
-        }
+        /// <summary>
+        /// Check if a todo item with the specified id exists
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        private bool TodoItemExists(int id) => _context.TodoItem.Any(e => e.Id == id);
     }
 }

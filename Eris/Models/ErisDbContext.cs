@@ -4,7 +4,7 @@ namespace Eris.Models
 {
     public partial class ErisDbContext : DbContext
     {
-        public virtual DbSet<TodoItem> ToDoItem { get; set; }
+        public virtual DbSet<TodoItem> TodoItem { get; set; }
 
         public ErisDbContext(DbContextOptions<ErisDbContext> options)
             : base(options) { }
